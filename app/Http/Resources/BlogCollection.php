@@ -20,9 +20,9 @@ class BlogCollection extends ResourceCollection
                 return [
                     'id' => $Blog->id,
                     'title' => $Blog->title,
-                    'description' => $Blog->description,
-                    'date' => $Blog->date,
-                    'images' => $Blog->images
+                    "description" => $Blog->description,
+                    "user" => "Ahmed"
+
                 ];
 
             })
