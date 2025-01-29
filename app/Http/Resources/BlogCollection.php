@@ -17,7 +17,13 @@ class BlogCollection extends ResourceCollection
 
         return [
             "data" => $this->collection->transform(function($Blog){
-               
+                return [
+                    'id' => $Blog->id,
+                    'title' => $Blog->title,
+                    'description' => $Blog->description,
+                    'date' => $Blog->date,
+                    'images' => $Blog->images
+                ];
 
             })
         ];
