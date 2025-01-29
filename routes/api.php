@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventsImagesController;
 use Illuminate\Http\Request;
@@ -21,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource("/events", EventController::class);
+Route::apiResource("/blogs",BlogController::class);
+
 
 Route::POST('/EventImage/{id}',[EventsImagesController::class, 'update']);
 Route::delete('/EventImage/{id}', [EventsImagesController::class, 'destroy']);
