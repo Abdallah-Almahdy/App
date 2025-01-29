@@ -18,6 +18,22 @@ class BlogController extends Controller
     }
 
 
+    public function show($id)
+    {
+        $Blog = Blog::find($id);
+
+        if (!$Blog) {
+            return response()->json([
+
+                "success" => false,
+                'message' => 'not found'
+            ], 404); //
+        }
+
+        return new BlogResource($Blog);
+    }
+
+
 
     public function store(Request $request)
     {
@@ -44,6 +60,7 @@ class BlogController extends Controller
             "title" => $request->title,
             "description" => $request->description
         ]);
+        $Blog->save;
 
         return response()->json([
             "success" => true,

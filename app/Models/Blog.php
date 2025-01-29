@@ -8,14 +8,15 @@ use Illuminate\Http\Request;
 
 class Blog extends Model
 {
-
+    use HasFactory;
+    
     protected $fillable = [
 
         "title",
         "description",
         "user_id"
     ];
-    use HasFactory;
+
 
 
     public static function validate(Request $request){

@@ -18,7 +18,7 @@ class BlogResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             "description" => $this->description,
-            "user" => "Ahmed"
+            "user" => $this->user_id
         ];
         return parent::toArray($request);
     }

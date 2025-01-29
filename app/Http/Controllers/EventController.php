@@ -47,12 +47,13 @@ class EventController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
 
         Event::validate($request);
-        $event = Event::findOrFail($request->id);
-
+        $event = Event::find($id);
+        abort_if(!$event,404, 'Blog not found');
+        
         $event->update($request->all());
         $event->save();
 
