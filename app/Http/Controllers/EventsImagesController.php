@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\event_images;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use PhpParser\Node\Stmt\Catch_;
+
 
 class EventsImagesController extends Controller
 {
@@ -54,4 +54,5 @@ class EventsImagesController extends Controller
         $image->delete();
         return response()->json(["message" => "image deleted successfully"]);
     }
+    
 }

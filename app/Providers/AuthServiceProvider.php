@@ -4,6 +4,8 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,39 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::before(function ($user) {
+            if ($user->is_super_admin) {
+                return true;
+            }
+        });
+
+        Gate::define('show-tasks', function ($user, $committee) {
+            if($user->committees->contains($committee) )
+            return true;
+        });
+
+        Gate::define('manage-tasks', function ($user, $committee) {
+            if (auth::guard('admin')->user()->committees->contains($committee))
+                return true;
+        });
+        
+        Gate::define('show-sessions', function ($user, $committee) {
+            if ($user->committees->contains($committee))
+                return true;
+        });
+
+        Gate::define('manage-sessions', function ($user, $committee) {
+            if (auth::guard('admin')->user()->committees->contains($committee))
+                return true;
+        });
+
+
+
+
+
+
+
+
+
     }
 }
