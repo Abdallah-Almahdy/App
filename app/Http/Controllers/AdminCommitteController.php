@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 class AdminCommitteController extends Controller
 {
     // super admin can add and remove committee from admin
-
+    // asd
     public function setAdmin(Request $request)
     {
         $request->validate([
             'admin_id' => 'required|exists:admins,id',
             'committee_id' => 'required|exists:committees,id'
         ]);
+
 
         $admin = Admin::find($request->post('admin_id'));
         $admin->committees()->attach($request->post('committee_id'));
