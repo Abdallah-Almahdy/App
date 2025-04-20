@@ -23,9 +23,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Handle Firebase credentials from environment variable
-        if (config('firebase.projects.app.credentials')) {
-            $credentialsBase64 = config('firebase.projects.app.credentials');
-            $credentialsJson = base64_decode($credentialsBase64);
+        if ($credentials = config('firebase.projects.app.credentials')) {
+            $credentialsJson = base64_decode($credentials);
+
+            if (json_decode($credentialsJson) === null) {
+                throw new \InvalidArgumentException('Invalid Firebase credentials JSON');
+            }
 
             // Create storage directory if it doesn't exist
             $storageDir = storage_path('app/firebase');
@@ -40,8 +43,11 @@ class AppServiceProvider extends ServiceProvider
             // Set the environment variable to use the JSON file
             putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $tempFilePath);
 
-            // Also set the credentials for the Firebase factory
-            config(['firebase.credentials' => $tempFilePath]);
+            // Update the Firebase configuration
+            config([
+                'firebase.projects.app.credentials' => $tempFilePath,
+                'firebase.credentials' => $tempFilePath
+            ]);
         }
 
         Notification::extend('firebase', function ($app) {
