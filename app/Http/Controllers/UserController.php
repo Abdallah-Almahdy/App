@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\User;
-use App\Notifications\appNotifcation;
+use App\Notifications\AppNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -29,7 +29,7 @@ class UserController extends Controller
         ]);
 
         $token = $user->createToken('Token')->plainTextToken;
-        $user->notify(new appNotifcation('Hello!', 'This is a test push notification asd .'));
+        $user->notify(new AppNotification('Hello!', 'This is a test push notification.'));
 
         return response()->json(['token' => $token, 'user' => $user], 201);
     }

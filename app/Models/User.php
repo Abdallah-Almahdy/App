@@ -53,4 +53,8 @@ class User extends Authenticatable
     {
         return $this->fcm_token; // or however you store the FCM token
     }
+    public function profile()
+    {
+        return $this->morphOne(Profile::class, 'profilable');
+    }
 }

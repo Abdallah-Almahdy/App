@@ -6,23 +6,23 @@ use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification as FirebaseNotification;
 use Illuminate\Notifications\Notification;
 
-class appNotifcation extends Notification
+class AppNotification extends Notification
 {
     protected $title;
     protected $body;
 
-    public function __construct($title, $body)
+    public function __construct(string $title, string $body)
     {
         $this->title = $title;
         $this->body = $body;
     }
 
-    public function via($notifiable)
+    public function via($notifiable): array
     {
         return ['firebase'];
     }
 
-    public function toFirebase($notifiable)
+    public function toFirebase($notifiable): CloudMessage
     {
         $deviceToken = $notifiable->routeNotificationFor('firebase');
 

@@ -24,5 +24,9 @@ class Admin extends Model
     {
         return $this->belongsToMany(Committee::class, 'admin_committees');
     }
+    public function profile()
+    {
+        return $this->morphOne(Profile::class, 'profilable');
+    }
 
 }
