@@ -50,7 +50,7 @@ return [
              *
              */
 
-            'credentials' => env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS')),
+            'credentials' => env('FIREBASE_CREDENTIALS'),
 
             /*
              * ------------------------------------------------------------------------
@@ -216,6 +216,14 @@ return [
 
                 'guzzle_middlewares' => [],
             ],
+
+            /*
+             * ------------------------------------------------------------------------
+             * Additional Firebase Configurations
+             * ------------------------------------------------------------------------
+             */
+
+            'project_id' => env('FIREBASE_PROJECT_ID'),
         ],
     ],
 ];

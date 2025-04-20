@@ -8,6 +8,7 @@
 .env
 .env.backup
 .env.production
+.phpunit.result.cache
 Homestead.json
 Homestead.yaml
 auth.json
@@ -16,3 +17,8 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Firebase credentials
+firebase-credentials.json
+*firebase*.json
+storage/app/firebase-credentials.json
