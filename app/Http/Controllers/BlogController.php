@@ -35,7 +35,7 @@ class BlogController extends Controller
     }
 
 
-
+// change the user_id to the authenticated user
     public function store(Request $request)
     {
         Blog::validate($request);
