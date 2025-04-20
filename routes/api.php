@@ -8,6 +8,7 @@ use App\Http\Controllers\committee_sessionsController;
 use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventsImagesController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\oAuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
@@ -46,7 +47,7 @@ Route::post('/admin/logout', [AdminController::class, 'logout']);
 Route::apiResource("/events", EventController::class);
 Route::apiResource("/blogs", BlogController::class);
 Route::apiResource('/awards', AwardController::class);
-
+Route::apiResource('/materials', MaterialController::class);
 
 Route::POST('/EventImage/{id}', [EventsImagesController::class, 'update']);
 Route::delete('/EventImage/{id}', [EventsImagesController::class, 'destroy']);
@@ -67,7 +68,7 @@ Route::middleware('superAdmin')->group(function () {
     Route::post('/committees/setAdmin', [AdminCommitteController::class, 'setAdmin']);
     Route::post('/committees/removeAdmin', [AdminCommitteController::class . 'removeAdmin']);
 });
-    
+
 
 
 Route::post('/login', [UserController::class, 'login']);

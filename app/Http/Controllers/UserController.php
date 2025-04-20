@@ -40,15 +40,24 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+
         $user = User::where('email', $request->email)->first();
         if (!$user) {
             $user = Admin::where('email', $request->email)->first();
         }
 
 
+
         if (!$user || ! Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
+
+        if ($request->fcm_token) {
+
+            $user->fcm_token = $request->fcm_token;
+            $user->save();
+        }
+
         $token = $user->createToken('Token')->plainTextToken;
         return response()->json(
             ['token' => $token, 'user' => $user],
@@ -63,6 +72,6 @@ class UserController extends Controller
             $request->user()->tokens()->delete();
             return response()->json(['message' => 'Logged out'], 200);
         }
-        return response()->json(['unauthenticated'],401);
+        return response()->json(['unauthenticated'], 401);
     }
 }
