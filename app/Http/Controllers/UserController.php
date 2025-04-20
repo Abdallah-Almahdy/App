@@ -29,7 +29,7 @@ class UserController extends Controller
         ]);
 
         $token = $user->createToken('Token')->plainTextToken;
-        $user->notify(new appNotifcation('Hello!', 'This is a test push notification.'));
+        $user->notify(new appNotifcation('Hello!', 'This is a test push notification asd .'));
 
         return response()->json(['token' => $token, 'user' => $user], 201);
     }
