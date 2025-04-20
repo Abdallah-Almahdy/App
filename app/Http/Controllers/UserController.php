@@ -29,7 +29,9 @@ class UserController extends Controller
         ]);
 
         $token = $user->createToken('Token')->plainTextToken;
-        $user->notify(new AppNotification('Hello!', 'This is a test push notification.'));
+        $user->notify(new AppNotification('🎉 Welcome to Aiche! 🎉!', "Hello $user->name, Welcome to Aiche! We're excited to have you on board. Whether you're here to explore, learn, or connect, we've got everything you need to get started.
+Your journey starts now, and we're here to help you every step of the way! If you need any assistance, don’t hesitate to reach out.
+Enjoy exploring and make the most out of your experience with us! 🌟"));
 
         return response()->json(['token' => $token, 'user' => $user], 201);
     }
