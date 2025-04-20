@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\User;
+use App\Notifications\appNotifcation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,6 +17,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
+            'fcm_token' => 'required',
 
         ]);
 
@@ -23,9 +25,11 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'fcm_token' => $request->fcm_token,
         ]);
 
         $token = $user->createToken('Token')->plainTextToken;
+        $user->notify(new appNotifcation('Hello!', 'This is a test push notification.'));
 
         return response()->json(['token' => $token, 'user' => $user], 201);
     }

@@ -67,11 +67,12 @@ Route::middleware('superAdmin')->group(function () {
     Route::post('/committees/setAdmin', [AdminCommitteController::class, 'setAdmin']);
     Route::post('/committees/removeAdmin', [AdminCommitteController::class . 'removeAdmin']);
 });
-
+    
 
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 Route::get('/logout', [UserController::class, 'logout']);
-
 Route::get('auth/google/callback', [oAuthController::class, 'handleGoogleCallback']);
+
+

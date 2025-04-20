@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -42,7 +43,8 @@ class Event extends Model
         $images = $request->file('images');
 
         foreach ($images as $image) {
-            $path = $image->store('images', 'public');
+            $path = Cloudinary::upload($image->getRealPath())->getSecurePath();
+
             event_images::create([
                 'image_path' => $path,
                 'event_id' => $event_id

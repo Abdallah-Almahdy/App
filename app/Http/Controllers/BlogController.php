@@ -43,7 +43,7 @@ class BlogController extends Controller
         $Blog = Blog::create([
             "title" => $request->title,
             "description" => $request->description,
-            "user_id" => 1
+            "user_id" => 2
         ]);
 
         return new BlogResource($Blog);

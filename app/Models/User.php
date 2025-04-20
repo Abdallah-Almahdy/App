@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'fcm_token'
     ];
 
     /**
@@ -46,5 +47,10 @@ class User extends Authenticatable
     public function Committees()
     {
         return $this->belongsToMany(Committee::class,'Member_committees');
+    }
+
+    public function routeNotificationForFirebase()
+    {
+        return $this->fcm_token; // or however you store the FCM token
     }
 }
