@@ -1,5 +1,5 @@
 <?php
-namespace App\Channels;
+namespace App\channels;
 
 use Kreait\Laravel\Firebase\Facades\Firebase;
 use Illuminate\Notifications\Notification;
