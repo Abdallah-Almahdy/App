@@ -27,9 +27,9 @@ class userProfileController extends Controller
         $user = $request->user();
 
         $request->validate([
-            'bio' => 'string|max:255',
-            'phone' => 'string|max:255',
-            'linkedin' => 'string|max:255',
+            'bio' => 'string|max:255|nullable',
+            'phone' => 'string|max:255|nullable',
+            'linkedin' => 'string|max:255|nullable',
         ]);
 
         $profile = $user->profile;
