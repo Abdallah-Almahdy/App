@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth:sanctum')->get('/profile',[userProfileController::class, 'profile']);
-Route::middleware('auth:sanctum')->put('/profile',[userProfileController::class, 'updateProfile']);
+Route::middleware('auth:sanctum')->post('/profile',[userProfileController::class, 'updateProfile']);
 
 Route::middleware('auth:sanctum')->get('/admin', function (Request $request) {
     return $request->user();
