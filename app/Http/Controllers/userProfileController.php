@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 
 class userProfileController extends Controller
 {
-
     public function profile(Request $request)
     {
-
+        $user = $request->user();
         return response()->json([
-            'image_url' => $request->user()->profile->image,
-            'bio' => $request->user()->profile->bio,
-            'phone' => $request->user()->profile->phone,
-            'linkedIn_link' => $request->user()->profile->linkedin,
-            'name' => $request->user()->name,
-            'email' => $request->user()->email,
-
+            'image_url' => optional($user->profile)->image,
+            'bio' => optional($user->profile)->bio,
+            'phone' => optional($user->profile)->phone,
+            'linkedIn_link' => optional($user->profile)->linkedin,
+            'name' => $user->name,
+            'email' => $user->email,
         ], 200);
     }
 
     public function updateProfile(Request $request)
     {
-        $user = auth()->user();
+        $user = $request->user();
 
         $request->validate([
             'bio' => 'string|max:255|nullable',
@@ -32,7 +31,15 @@ class userProfileController extends Controller
             'linkedin' => 'string|max:255|nullable',
         ]);
 
+        // Get or create profile with explicit polymorphic relationship
         $profile = $user->profile;
+        if (!$profile) {
+            $profile = $user->profile()->create([
+                'profilable_type' => get_class($user),
+                'profilable_id' => $user->id
+            ]);
+            $user->refresh();
+        }
 
         if ($request->file('image')) {
             $request->validate([
@@ -40,11 +47,15 @@ class userProfileController extends Controller
             ]);
 
             $path = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
-            if(!$path){
+            if (!$path) {
                 return response()->json(['message' => 'Image upload failed'], 500);
-    }
-            $profile->update(['image' => $path]);
+            }
 
+            $profile->update([
+                'image' => $path,
+                'profilable_type' => get_class($user),
+                'profilable_id' => $user->id
+            ]);
         }
 
         if ($profile) {
@@ -52,8 +63,12 @@ class userProfileController extends Controller
                 'bio' => $request->bio,
                 'phone' => $request->phone,
                 'linkedin' => $request->linkedin,
+                'profilable_type' => get_class($user),
+                'profilable_id' => $user->id
             ]);
         }
+
+        $user->refresh();
 
         return response()->json(['user' => $user], 200);
     }
