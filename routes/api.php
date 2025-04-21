@@ -29,9 +29,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 Route::middleware('auth:sanctum')->get('/profile',[UserController::class, 'profile']);
 Route::middleware('auth:sanctum')->put('/profile',[UserController::class, 'updateProfile']);
 
@@ -71,11 +69,13 @@ Route::middleware('superAdmin')->group(function () {
     Route::post('/committees/removeAdmin', [AdminCommitteController::class . 'removeAdmin']);
 });
 
+route::middleware('auth:sanctum')->get('/committees/{committee_id}/requests', [AdminCommitteController::class, 'members']);
 
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
-Route::get('/logout', [UserController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/logout', [UserController::class, 'logout']);
+
 Route::get('auth/google/callback', [oAuthController::class, 'handleGoogleCallback']);
 
 

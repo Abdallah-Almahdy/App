@@ -29,9 +29,12 @@ class UserController extends Controller
         ]);
 
         $token = $user->createToken('Token')->plainTextToken;
-        $user->notify(new AppNotification('🎉 Welcome to Aiche! 🎉!', "Hello $user->name, Welcome to Aiche! We're excited to have you on board. Whether you're here to explore, learn, or connect, we've got everything you need to get started.
-Your journey starts now, and we're here to help you every step of the way! If you need any assistance, don’t hesitate to reach out.
-Enjoy exploring and make the most out of your experience with us! 🌟"));
+        $user->notify(new AppNotification('🎉 Welcome to Aiche! 🎉!', "Hello $user->name, Welcome to Aiche! We're excited to have you on board.
+                                            Whether you're here to explore, learn,
+                                            or connect, we've got everything you need to get started.
+                                            Your journey starts now, and we're here to help you every step of the way! If you need any assistance,
+                                            don’t hesitate to reach out.
+                                            Enjoy exploring and make the most out of your experience with us! 🌟"));
 
         return response()->json(['token' => $token, 'user' => $user], 201);
     }
@@ -70,10 +73,10 @@ Enjoy exploring and make the most out of your experience with us! 🌟"));
 
     public function logout(Request $request)
     {
-        if (auth()->logout()) {
-            $request->user()->tokens()->delete();
-            return response()->json(['message' => 'Logged out'], 200);
-        }
-        return response()->json(['unauthenticated'], 401);
+        // Delete the current access token
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Logged out'], 200);
     }
+
 }
