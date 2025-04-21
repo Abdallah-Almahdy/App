@@ -29,7 +29,6 @@ class userProfileController extends Controller
 
 
         $user->profile->update([
-            'name' => $request->name,
             'bio' => $request->bio,
             'phone' => $request->phone,
             'linkedin' => $request->linkedin,

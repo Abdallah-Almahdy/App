@@ -12,7 +12,7 @@ class oAuthController extends Controller
 
     public function handleGoogleCallback($request)
     {
-        $googleUser = Socialite::driver('google')->userFromToken($request->token);
+        $googleUser = Socialite::driver('google')->user();
 
         $user = User::firstOrCreate(
             [

@@ -12,6 +12,7 @@ use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\oAuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\userProfileController;
 use App\Http\Resources\AwardResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,8 +31,8 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::middleware('auth:sanctum')->get('/profile',[UserController::class, 'profile']);
-Route::middleware('auth:sanctum')->put('/profile',[UserController::class, 'updateProfile']);
+Route::middleware('auth:sanctum')->get('/profile',[userProfileController::class, 'profile']);
+Route::middleware('auth:sanctum')->put('/profile',[userProfileController::class, 'updateProfile']);
 
 Route::middleware('auth:sanctum')->get('/admin', function (Request $request) {
     return $request->user();

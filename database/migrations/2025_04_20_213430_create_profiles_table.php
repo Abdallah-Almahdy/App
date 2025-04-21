@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('profiles', function (Blueprint $table) {
             $table->morphs('profilable');
-            $table->string('image')->nullable()->default('');
+            $table->string('image')->nullable();
             $table->string('bio')->nullable();
             $table->string('phone')->nullable();
             $table->string('linkedin')->nullable();
