@@ -40,6 +40,9 @@ class userProfileController extends Controller
             ]);
 
             $path = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+            if(!$path){
+                return response()->json(['message' => 'Image upload failed'], 500);
+    }
             $profile->update(['image' => $path]);
 
         }
