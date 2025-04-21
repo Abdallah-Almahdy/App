@@ -10,9 +10,12 @@ class userProfileController extends Controller
 
     public function profile(Request $request)
     {
+
         return response()->json([
-            'user' => $request->user(),
-            'profile' => $request->user()->profile,
+            'image_url' => $request->user()->profile->image,
+            'bio' => $request->user()->profile->bio,
+            'phone' => $request->user()->profile->phone,
+            'linkedIn_link' => $request->user()->profile->linkedin,
         ], 200);
     }
 

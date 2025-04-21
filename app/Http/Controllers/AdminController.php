@@ -60,6 +60,8 @@ public function register(Request $request)
         'password' => Hash::make($request->password),
         'title' => $request->title
     ]);
+    // Create an empty profile for the admin
+    $admin->profile()->create();
 
     $token = $admin->createToken('admin-token')->plainTextToken;
 

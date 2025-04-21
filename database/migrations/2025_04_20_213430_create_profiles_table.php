@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('linkedin')->nullable();
             $table->timestamps();
+            
+            // Set composite primary key
+            $table->primary(['profilable_type', 'profilable_id']);
         });
     }
 

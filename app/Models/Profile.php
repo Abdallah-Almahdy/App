@@ -9,6 +9,9 @@ class Profile extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+    protected $primaryKey = ['profilable_type', 'profilable_id'];
+
     protected $fillable = [
         'image',
         'bio',
@@ -20,6 +23,4 @@ class Profile extends Model
     {
         return $this->morphTo();
     }
-
-    
 }
