@@ -40,9 +40,8 @@ class userProfileController extends Controller
             ]);
 
             $path = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
-            if ($profile && $profile instanceof \App\Models\Profile) {
-                $profile->update(['image' => $path]);
-            }
+            $profile->update(['image' => $path]);
+
         }
 
         if ($profile && $profile instanceof \App\Models\Profile) {
