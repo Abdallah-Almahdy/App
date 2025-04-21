@@ -24,7 +24,7 @@ class userProfileController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $user = $request->user();
+        $user = auth()->user();
 
         $request->validate([
             'bio' => 'string|max:255|nullable',
@@ -47,7 +47,7 @@ class userProfileController extends Controller
 
         }
 
-        if ($profile && $profile instanceof \App\Models\Profile) {
+        if ($profile) {
             $profile->update([
                 'bio' => $request->bio,
                 'phone' => $request->phone,
