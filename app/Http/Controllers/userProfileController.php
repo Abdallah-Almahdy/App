@@ -25,6 +25,7 @@ class userProfileController extends Controller
     {
         $user = $request->user();
 
+
         $request->validate([
             'bio' => 'string|max:255|nullable',
             'phone' => 'string|max:255|nullable',
@@ -33,17 +34,10 @@ class userProfileController extends Controller
 
         // Get or create profile with explicit polymorphic relationship
         $profile = $user->profile;
-        if (!$profile) {
-            $profile = $user->profile()->create([
-                'profilable_type' => get_class($user),
-                'profilable_id' => $user->id
-            ]);
-            $user->refresh();
-        }
 
         if ($request->file('image')) {
             $request->validate([
-                'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+                'image' => 'required|image|mimes:jpg,jpeg,png,gif',
             ]);
 
             $path = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
@@ -52,23 +46,16 @@ class userProfileController extends Controller
             }
 
             $profile->update([
-                'image' => $path,
-                'profilable_type' => get_class($user),
-                'profilable_id' => $user->id
+                'image' => $path
             ]);
         }
 
-        if ($profile) {
-            $profile->update([
-                'bio' => $request->bio,
-                'phone' => $request->phone,
-                'linkedin' => $request->linkedin,
-                'profilable_type' => get_class($user),
-                'profilable_id' => $user->id
-            ]);
-        }
+        $profile->update([
+            'bio' => $request->bio,
+            'phone' => $request->phone,
+            'linkedin' => $request->linkedin
+        ]);
 
-        $user->refresh();
 
         return response()->json(['user' => $user], 200);
     }

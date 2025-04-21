@@ -15,10 +15,9 @@ class Profile extends Model
     protected $fillable = [
         'image',
         'bio',
-        'phone',   
+        'phone',
         'linkedin',
-        'profilable_type',
-        'profilable_id'
+
     ];
 
 

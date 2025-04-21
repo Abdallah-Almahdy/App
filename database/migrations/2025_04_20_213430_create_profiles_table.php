@@ -12,15 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('profiles', function (Blueprint $table) {
+            $table->id();
             $table->morphs('profilable');
             $table->string('image')->nullable();
             $table->string('bio')->nullable();
             $table->string('phone')->nullable();
             $table->string('linkedin')->nullable();
             $table->timestamps();
-            
+
             // Set composite primary key
-            $table->primary(['profilable_type', 'profilable_id']);
+            $table->unique(['profilable_type', 'profilable_id']);
         });
     }
 
