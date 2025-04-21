@@ -16,6 +16,9 @@ class userProfileController extends Controller
             'bio' => $request->user()->profile->bio,
             'phone' => $request->user()->profile->phone,
             'linkedIn_link' => $request->user()->profile->linkedin,
+            'name' => $request->user()->name,
+            'email' => $request->user()->email,
+            
         ], 200);
     }
 
