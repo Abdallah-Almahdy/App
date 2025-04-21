@@ -18,27 +18,40 @@ class userProfileController extends Controller
             'linkedIn_link' => $request->user()->profile->linkedin,
             'name' => $request->user()->name,
             'email' => $request->user()->email,
-            
+
         ], 200);
     }
 
     public function updateProfile(Request $request)
     {
         $user = $request->user();
+
+        $request->validate([
+            'bio' => 'string|max:255',
+            'phone' => 'string|max:255',
+            'linkedin' => 'string|max:255',
+        ]);
+
+        $profile = $user->profile;
+
         if ($request->file('image')) {
             $request->validate([
                 'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
             ]);
+
             $path = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
-            $user->profile->update(['image' => $path]);
+            if ($profile && $profile instanceof \App\Models\Profile) {
+                $profile->update(['image' => $path]);
+            }
         }
 
-
-        $user->profile->update([
-            'bio' => $request->bio,
-            'phone' => $request->phone,
-            'linkedin' => $request->linkedin,
-        ])->save();
+        if ($profile && $profile instanceof \App\Models\Profile) {
+            $profile->update([
+                'bio' => $request->bio,
+                'phone' => $request->phone,
+                'linkedin' => $request->linkedin,
+            ]);
+        }
 
         return response()->json(['user' => $user], 200);
     }

@@ -10,14 +10,18 @@ class Profile extends Model
     use HasFactory;
 
     public $incrementing = false;
-    protected $primaryKey = ['profilable_type', 'profilable_id'];
+    public $primaryKey = null;  // No single primary key since we're using a composite key
 
     protected $fillable = [
         'image',
         'bio',
         'phone',
-        'linkedin'
+        'linkedin',
+        'profilable_type',
+        'profilable_id'
     ];
+
+
 
     public function profilable()
     {
