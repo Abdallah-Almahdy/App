@@ -44,15 +44,21 @@ Route::post('/admin/login', [AdminController::class, 'login']);
 Route::post('/admin/logout', [AdminController::class, 'logout']);
 
 
-Route::middleware(['admin', 'auth:sanctum'])->group(
-    function () {
-        Route::apiResource("/events", EventController::class);
-        Route::apiResource("/blogs", BlogController::class);
-        Route::post("/blogs/{id}", [BlogController::class, 'update']);
-        Route::apiResource('/awards', AwardController::class);
-        Route::apiResource('/materials', MaterialController::class);
-    }
-);
+Route::middleware(['admin', 'auth:sanctum'])->group(function () {
+    Route::apiResource('/events', EventController::class)->except(['index', 'show']);
+    Route::apiResource('/blogs', BlogController::class)->except(['index', 'show']);
+    Route::apiResource('/awards', AwardController::class)->except(['index', 'show']);
+    Route::apiResource('/materials', MaterialController::class)->except(['index', 'show']);
+});
+Route::middleware([ 'auth:sanctum'])->group(function () {
+    Route::apiResource('/events', EventController::class)->only(['index', 'show']);
+    Route::apiResource('/blogs', BlogController::class)->only(['index', 'show']);
+    Route::apiResource('/awards', AwardController::class)->only(['index', 'show']);
+    Route::apiResource('/materials', MaterialController::class)->only(['index', 'show']);
+});
+
+
+
 
 Route::POST('/EventImage/{id}', [EventsImagesController::class, 'update']);
 Route::delete('/EventImage/{id}', [EventsImagesController::class, 'destroy']);
