@@ -21,7 +21,18 @@ class BlogCollection extends ResourceCollection
                     'id' => $Blog->id,
                     'title' => $Blog->title,
                     "description" => $Blog->description,
-                    "user" => "Ahmed"
+                    'image' => $Blog->image,
+                    "user" => $Blog->user,
+                    'created_at' => $Blog->created_at,
+                    'updated_at' => $Blog->updated_at,
+                    'user' =>[
+                        'name' => $Blog->user->name,
+                        'title' => $Blog->user->title,
+                        'image' => $Blog->user->profile->image,
+                        'bio' => $Blog->user->profile->bio,
+                        'phone' => $Blog->user->profile->phone,
+                        'linkedin' => $Blog->user->profile->linkedin,
+                    ],
 
                 ];
 

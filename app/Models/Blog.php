@@ -9,12 +9,13 @@ use Illuminate\Http\Request;
 class Blog extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
 
         "title",
         "description",
-        "user_id"
+        "user_id",
+        'image'
     ];
 
 
@@ -24,9 +25,16 @@ class Blog extends Model
     return $request->validate([
     "title" => "required|string",
     "description" => "required|string",
+    'image' => 'required|image|mimes:jpeg,png,jpg,gif',
     ]);
-
-
-
     }
+
+
+    public function user(){
+
+        return $this->belongsTo(Admin::class);
+    }
+
+
+
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\BlogCollection;
 use App\Http\Resources\BlogResource;
+use App\Models\Admin;
 use App\Models\Blog;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -39,11 +41,24 @@ class BlogController extends Controller
     public function store(Request $request)
     {
         Blog::validate($request);
+        $user = auth()->user();
+
+
+        if($request->file('image')){
+
+
+            $path = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+            if (!$path) {
+                return response()->json(['message' => 'Image upload failed'], 500);
+            }
+        }
 
         $Blog = Blog::create([
             "title" => $request->title,
             "description" => $request->description,
-            "user_id" => 2
+            "user_id" => $user->id,
+            'image' => $path
+
         ]);
 
         return new BlogResource($Blog);
@@ -57,9 +72,20 @@ class BlogController extends Controller
         $Blog = Blog::find($id);
         abort_if(!$Blog, 404, 'Blog not found');
 
+        if($request->file('image')){
+
+            $path = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+            if (!$path) {
+                return response()->json(['message' => 'Image upload failed'], 500);
+            }
+            $publicId = Admin::getPublicIdFromUrl($Blog->image);
+            Cloudinary::destroy($publicId);
+        }
+
         $Blog->update([
             "title" => $request->title,
-            "description" => $request->description
+            "description" => $request->description,
+            'image' => $path
         ]);
         $Blog->save;
 

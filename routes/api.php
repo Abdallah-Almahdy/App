@@ -31,8 +31,8 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::middleware('auth:sanctum')->get('/profile',[userProfileController::class, 'profile']);
-Route::middleware('auth:sanctum')->post('/profile',[userProfileController::class, 'updateProfile']);
+Route::middleware('auth:sanctum')->get('/profile', [userProfileController::class, 'profile']);
+Route::middleware('auth:sanctum')->post('/profile', [userProfileController::class, 'updateProfile']);
 
 Route::middleware('auth:sanctum')->get('/admin', function (Request $request) {
     return $request->user();
@@ -44,11 +44,15 @@ Route::post('/admin/login', [AdminController::class, 'login']);
 Route::post('/admin/logout', [AdminController::class, 'logout']);
 
 
-
-Route::apiResource("/events", EventController::class);
-Route::apiResource("/blogs", BlogController::class);
-Route::apiResource('/awards', AwardController::class);
-Route::apiResource('/materials', MaterialController::class);
+Route::middleware(['admin', 'auth:sanctum'])->group(
+    function () {
+        Route::apiResource("/events", EventController::class);
+        Route::apiResource("/blogs", BlogController::class);
+        Route::post("/blogs/{id}", [BlogController::class, 'update']);
+        Route::apiResource('/awards', AwardController::class);
+        Route::apiResource('/materials', MaterialController::class);
+    }
+);
 
 Route::POST('/EventImage/{id}', [EventsImagesController::class, 'update']);
 Route::delete('/EventImage/{id}', [EventsImagesController::class, 'destroy']);
@@ -78,5 +82,3 @@ Route::post('/register', [UserController::class, 'register']);
 Route::middleware('auth:sanctum')->get('/logout', [UserController::class, 'logout']);
 
 Route::get('auth/google/callback', [oAuthController::class, 'handleGoogleCallback']);
-
-

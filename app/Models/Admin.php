@@ -29,4 +29,32 @@ class Admin extends Model
         return $this->morphOne(Profile::class, 'profilable');
     }
 
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class);
+    }
+
+     public static function getPublicIdFromUrl($url)
+    {
+        $urlPath = parse_url($url, PHP_URL_PATH); // /demo/image/upload/v1674321234/folder_name/my_image.jpg
+        $parts = explode('/', $urlPath);
+
+        // Remove version number (e.g., v1674321234)
+        $versionIndex = array_search('upload', $parts) + 1;
+        if (isset($parts[$versionIndex]) && str_starts_with($parts[$versionIndex], 'v')) {
+            unset($parts[$versionIndex]);
+        }
+
+        // Get everything after 'upload/'
+        $uploadIndex = array_search('upload', $parts);
+        $publicParts = array_slice($parts, $uploadIndex + 1);
+
+        // Remove extension
+        $file = array_pop($publicParts);
+        $fileName = pathinfo($file, PATHINFO_FILENAME);
+        $publicParts[] = $fileName;
+
+        return implode('/', $publicParts);
+    }
 }

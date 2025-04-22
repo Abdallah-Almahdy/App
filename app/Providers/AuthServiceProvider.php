@@ -40,7 +40,7 @@ class AuthServiceProvider extends ServiceProvider
             if (auth::guard('admin')->user()->committees->contains($committee))
                 return true;
         });
-        
+
         Gate::define('show-sessions', function ($user, $committee) {
             if ($user->committees->contains($committee))
                 return true;
@@ -50,14 +50,6 @@ class AuthServiceProvider extends ServiceProvider
             if (auth::guard('admin')->user()->committees->contains($committee))
                 return true;
         });
-
-
-
-
-
-
-
-
 
     }
 }
