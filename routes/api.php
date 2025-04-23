@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminCommitteController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AwardController;
+use App\Http\Controllers\BanerController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\committee_sessionsController;
 use App\Http\Controllers\CommitteeController;
@@ -50,6 +51,10 @@ Route::middleware(['admin', 'auth:sanctum'])->group(function () {
     Route::apiResource('/awards', AwardController::class)->except(['index', 'show']);
     Route::apiResource('/materials', MaterialController::class)->except(['index', 'show']);
 });
+
+Route::apiResource('/baners', BanerController::class)->except('update');
+Route::post('/baners/{id}', [BanerController::class, 'update']);
+
 Route::middleware([ 'auth:sanctum'])->group(function () {
     Route::apiResource('/events', EventController::class)->only(['index', 'show']);
     Route::apiResource('/blogs', BlogController::class)->only(['index', 'show']);
