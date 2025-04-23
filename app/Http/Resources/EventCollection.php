@@ -20,7 +20,13 @@ class EventCollection extends ResourceCollection
                     'id' => $event->id,
                     'title' => $event->title,
                     'description' => $event->description,
-                    'date' => $event->date,
+                    'start_date' => $event->date,
+                    'end_date' => $event->end_date,
+                    'place' => $event->place,
+                    'formLink' => $event->formLink,
+                    'facebookLink' => $event->facebookLink,
+                    'category' => $event->category,
+                    'status' => $event->status,
                     'images' => $event->images
                 ];
             }),

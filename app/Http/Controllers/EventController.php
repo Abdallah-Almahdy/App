@@ -24,12 +24,19 @@ class EventController extends Controller
             $event = Event::create([
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
-                'date' => $request->input('date'),
+                'date' => $request->input('start_date'),
+                'end_date' => $request->input('end_date'),
+                'place' => $request->input('place'),
+                'formLink' => $request->input('formLink'),
+                'facebookLink' => $request->input('facebookLink'),
+                'category' => $request->input('category'),
+                'status' => $request->input('status'),
             ]);
 
             Event::storeImages($request, $event->id);
 
             return new EventResource($event);
+
         } catch (ValidationException $e) {
             return response()->json(['message' => $e->errors()], 422);
         }
@@ -53,8 +60,19 @@ class EventController extends Controller
         Event::validate($request);
         $event = Event::find($id);
         abort_if(!$event,404, 'Blog not found');
-        
-        $event->update($request->all());
+
+        $event->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+            'place' => $request->input('place'),
+            'formLink' => $request->input('formLink'),
+            'facebookLink' => $request->input('facebookLink'),
+            'category' => $request->input('category'),
+            'status' => $request->input('status'),
+        ]);
+
         $event->save();
 
         return response()->json([

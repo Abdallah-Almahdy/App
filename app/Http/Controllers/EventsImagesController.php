@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\event_images;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,12 +21,17 @@ class EventsImagesController extends Controller
                 "image" => 'required|image|mimes:jpg,jpeg,png,gif'
             ]);
             $image = event_images::findOrFail($id);
-            if ($image->image_path && Storage::disk('public')->exists($image->image_path)) {
-
-                Storage::disk('public')->delete($image->image_path);
+            if (!$image) {
+                return abort(404);
             }
 
-            $path = $request->file('image')->store('images', 'public');
+            $lastimage = Admin::getPublicIdFromUrl($image->image_path);
+            if ($lastimage) {
+                Cloudinary::destroy($lastimage);
+            }
+
+
+            $path = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
             $image->image_path = $path;
             $image->save();
 
@@ -54,5 +61,5 @@ class EventsImagesController extends Controller
         $image->delete();
         return response()->json(["message" => "image deleted successfully"]);
     }
-    
+
 }

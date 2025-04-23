@@ -14,7 +14,13 @@ class Event extends Model
     protected $fillable = [
         'title',
         'description',
-        "date"
+        "date",
+        'end_date',
+        'place',
+        'formLink',
+        'facebookLink',
+        'category',
+        'status'
     ];
 
 
@@ -24,7 +30,14 @@ class Event extends Model
         return $request->validate([
             'title' => 'required|string',
             'description' => 'required',
-            'date' => 'required|date',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'place' => 'required|string',
+            'formLink' => 'required|string|url',
+            'facebookLink' => 'required|string|url',
+            'category' => 'required|string',
+            'status' => 'required|in:open,closed',
+
         ]);
     }
 
