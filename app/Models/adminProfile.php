@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class adminProfile extends Model
+class AdminProfile extends Model
 {
     use HasFactory;
 
