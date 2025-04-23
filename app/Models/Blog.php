@@ -33,6 +33,7 @@ class Blog extends Model
     public function user(){
 
         return $this->belongsTo(Admin::class);
+        
     }
 
 
