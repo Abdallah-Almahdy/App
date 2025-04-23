@@ -32,6 +32,7 @@ class UserController extends Controller
         $user->profile()->create();
 
         $token = $user->createToken('Token')->plainTextToken;
+        
         $user->notify(new AppNotification('🎉 Welcome to Aiche! 🎉!', "Hello $user->name, Welcome to Aiche! We're excited to have you on board.
                                             Whether you're here to explore, learn,
                                             or connect, we've got everything you need to get started.

@@ -53,6 +53,13 @@ class User extends Authenticatable
     {
         return $this->fcm_token; // or however you store the FCM token
     }
+
+    public function clearFirebaseToken()
+    {
+        $this->fcm_token = null;
+        $this->save();
+    }
+
     public function profile()
     {
         return $this->hasOne(userProfile::class, 'user_id');

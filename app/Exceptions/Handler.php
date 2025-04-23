@@ -47,16 +47,15 @@ class Handler extends ExceptionHandler
             //
         });
 
-        $this->renderable(function(ValidationException $e,$request){
+        $this->renderable(function(ValidationException $e, $request) {
             return response()->json([
                 "success" => false,
-                'message' => $e->errors()]
-                ,422);
+                'message' => $e->errors()
+            ], 422);
         });
 
-        $this->renderable(function(TokenMismatchException $e,$request){
-            if($request->expectsJson())
-            {
+        $this->renderable(function(TokenMismatchException $e, $request) {
+            if($request->expectsJson()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'CSRF token mismatch.',
@@ -65,7 +64,13 @@ class Handler extends ExceptionHandler
             return redirect()->back()->withInput()->withErrors([
                 'csrf_error' => 'Session expired. Please try again.',
             ]);
+        });
 
+        $this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $request) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthenticated'
+            ], 401);
         });
     }
 }
