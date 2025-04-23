@@ -5,23 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Profile extends Model
+class userProfile extends Model
 {
     use HasFactory;
 
-    public $incrementing = false;
-    public $primaryKey = null;  // No single primary key since we're using a composite key
-
     protected $fillable = [
+        'user_id',
         'image',
         'bio',
         'phone',
         'linkedin',
-
     ];
-
-    public function profilable()
+    public function user()
     {
-        return $this->morphTo();
+        return $this->belongsTo(User::class);
     }
 }

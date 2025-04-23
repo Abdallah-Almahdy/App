@@ -26,18 +26,15 @@ class userProfileController extends Controller
     {
         $user = $request->user();
 
-
         $request->validate([
             'bio' => 'string|max:255|nullable',
             'phone' => 'string|max:255|nullable',
             'linkedin' => 'string|max:255|nullable',
         ]);
+        $profile = $user->profile;
 
-        // Get or create profile with explicit polymorphic relationship
 
-        $id = $user->profile->id;
-        $profile = Profile::where('id','=', $id)->first();
- 
+
         if ($request->file('image')) {
             $request->validate([
                 'image' => 'required|image|mimes:jpg,jpeg,png,gif',
@@ -48,18 +45,14 @@ class userProfileController extends Controller
                 return response()->json(['message' => 'Image upload failed'], 500);
             }
 
-            $profile->update([
-                'image' => $path
-            ]);
+            $profile->image = $path;
         }
 
-        $profile->update([
-            'bio' => $request->bio,
-            'phone' => $request->phone,
-            'linkedin' => $request->linkedin
-        ]);
+        $profile->bio = $request->bio;
+        $profile->phone = $request->phone;
+        $profile->linkedin = $request->linkedin;
+        $profile->save();
 
-
-        return response()->json(['user' => $user], 200);
+        return response()->json(['user' => $user ], 200);
     }
 }

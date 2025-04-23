@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('admin_profiles', function (Blueprint $table) {
             $table->id();
-            $table->morphs('profilable');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('admins')->cascadeOnDelete();
             $table->string('image')->nullable();
             $table->string('bio')->nullable();
             $table->string('phone')->nullable();
             $table->string('linkedin')->nullable();
             $table->timestamps();
-
-            // Set composite primary key
-            $table->unique(['profilable_type', 'profilable_id']);
         });
     }
 
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('admin__prfiles');
     }
 };

@@ -26,7 +26,7 @@ class Admin extends Model
     }
     public function profile()
     {
-        return $this->morphOne(Profile::class, 'profilable');
+        return $this->hasOne(AdminProfile::class, 'user_id');
     }
 
 
