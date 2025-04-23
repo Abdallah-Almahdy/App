@@ -20,8 +20,6 @@ class Profile extends Model
 
     ];
 
-
-
     public function profilable()
     {
         return $this->morphTo();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\User;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
@@ -33,8 +34,10 @@ class userProfileController extends Controller
         ]);
 
         // Get or create profile with explicit polymorphic relationship
-        $profile = $user->profile;
 
+        $id = $user->profile->id;
+        $profile = Profile::where('id','=', $id)->first();
+ 
         if ($request->file('image')) {
             $request->validate([
                 'image' => 'required|image|mimes:jpg,jpeg,png,gif',
