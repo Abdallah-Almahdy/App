@@ -20,5 +20,5 @@ class admin_committe extends Model
     {
         return $this->belongsToMany(Admin::class);
     }
-    
+
 }
