@@ -14,7 +14,7 @@ class MaterialController extends Controller
      */
     public function index()
     {
-        return new MaterialCollection(Material::all() );
+        return new MaterialCollection(Material::all());
     }
 
     /**

@@ -80,11 +80,11 @@ Route::middleware('auth:sanctum')->apiResource('/committees/{commitee_id}/sessio
 //super admin routes
 Route::middleware('superAdmin')->group(function () {
 
-    Route::post('/admin/register', [AdminController::class, 'register']);
+
     Route::post('/committees/setAdmin', [AdminCommitteController::class, 'setAdmin']);
     Route::post('/committees/removeAdmin', [AdminCommitteController::class . 'removeAdmin']);
 });
-
+Route::post('/admin/register', [AdminController::class, 'register']);
 route::middleware('auth:sanctum')->get('/committees/{committee_id}/requests', [AdminCommitteController::class, 'members']);
 
 

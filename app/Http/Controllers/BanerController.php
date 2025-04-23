@@ -35,7 +35,7 @@ class BanerController extends Controller
     {
         $request->validate([
             'image' => 'required|image|mimes:jpg,jpeg,png,gif',
-            'link' => 'required|string|max:255',
+            'link' => 'required|string|max:255|url',
             'title' => 'required|string|max:255',
             'type' => 'string|max:255|in:facebook,instagram,twitter,linkedin',
         ]);
@@ -69,7 +69,7 @@ class BanerController extends Controller
         }
         $request->validate([
             'image' => 'image|mimes:jpg,jpeg,png,gif',
-            'link' => 'string|max:255',
+            'link' => 'string|max:255|url',
             'title' => 'string|max:255',
             'type' => 'string|max:255|in:facebook,instagram,twitter,linkedin',
         ]);

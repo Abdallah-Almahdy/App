@@ -25,7 +25,7 @@ class Material extends Model
         "name" => "required|string",
         "semester" => "required|string",
         "department" => "required|string",
-        "link" => "required|string"
+        "link" => "required|string|url",
         ]);
     }
 }

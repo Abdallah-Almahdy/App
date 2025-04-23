@@ -14,7 +14,8 @@ class committee_sessions extends Model
         "description",
         "date",
         'user_id',
-        'committee_id'
+        'committee_id',
+        'link'
     ];
 
     public static function validate($request)
@@ -23,6 +24,7 @@ class committee_sessions extends Model
             'title' => 'required|max:255',
             'description' => 'required|max:255',
             'date' => 'required|date',
+            'link' => 'required|url',
         ]);
 
 

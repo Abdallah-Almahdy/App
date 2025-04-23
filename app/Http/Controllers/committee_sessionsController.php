@@ -34,12 +34,14 @@ class committee_sessionsController extends Controller
 
 
         committee_sessions::validate($request);
+
         $session = committee_sessions::create([
             'title' => $request->post('title'),
             'description' => $request->post('description'),
             'date' => $request->post('date'),
             'user_id' => Auth::user()->id,
-            'committee_id' => $committee_id
+            'committee_id' => $committee_id,
+            'link' => $request->post('link'),
         ]);
 
         return new SessionsResource($session);
@@ -69,6 +71,7 @@ class committee_sessionsController extends Controller
             'title' => $request->post('title'),
             'description' => $request->post('description'),
             'date' => $request->post('date'),
+            'link' => $request->post('link'),
         ]);
         return  new SessionsResource($session);
     }
