@@ -5,12 +5,14 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AwardController;
 use App\Http\Controllers\BanerController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\committee_sessionsController;
 use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\EventsImagesController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\oAuthController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\userProfileController;
@@ -47,13 +49,19 @@ Route::post('/admin/logout', [AdminController::class, 'logout']);
 
 Route::middleware(['admin', 'auth:sanctum'])->group(function () {
     Route::apiResource('/events', EventController::class)->except(['index', 'show']);
-    Route::apiResource('/blogs', BlogController::class)->except(['index', 'show']);
+    Route::apiResource('/blogs', BlogController::class)->except(['index', 'show','update']);
+    Route::post('/blogs/{id}', [BlogController::class, 'update']);
     Route::apiResource('/awards', AwardController::class)->except(['index', 'show']);
     Route::apiResource('/materials', MaterialController::class)->except(['index', 'show']);
 });
 
 Route::apiResource('/baners', BanerController::class)->except('update');
 Route::post('/baners/{id}', [BanerController::class, 'update']);
+Route::apiResource('/collections', CollectionController::class)->except('update');
+Route::post('/collections/{id}', [CollectionController::class, 'update']);
+Route::apiResource('/products', ProductController::class)->except('update');
+Route::post('/products/{id}', [ProductController::class, 'update']);
+
 
 Route::middleware([ 'auth:sanctum'])->group(function () {
     Route::apiResource('/events', EventController::class)->only(['index', 'show']);
