@@ -17,7 +17,7 @@ class collection extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'products_collections');
+        return $this->belongsToMany(product::class, 'products_collections');
     }
 
     public static function validate($request)
@@ -30,6 +30,11 @@ class collection extends Model
             'products_id' => 'required|array',
             'products_id.*' => 'required|exists:products,id',
         ]);
+    }
+
+    public function collectionOrders()
+    {
+        return $this->hasMany(collectionOrder::class);
     }
 
 
