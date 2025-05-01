@@ -29,9 +29,13 @@ class Committee extends Model
     {
         return $this->hasMany(Task::class);
     }
+    public function admins()
+    {
+        return $this->belongsToMany(Admin::class,'admin_committees');
+    }
 
     public function members(){
-        
+
         return $this->belongsToMany(User::class,'users');
     }
 

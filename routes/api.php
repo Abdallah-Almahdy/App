@@ -81,7 +81,7 @@ Route::POST('/EventImage/{id}', [EventsImagesController::class, 'update']);
 Route::delete('/EventImage/{id}', [EventsImagesController::class, 'destroy']);
 
 
-Route::apiResource('/committees', CommitteeController::class);
+
 Route::middleware('auth:sanctum')->apiResource('/committees/{commitee_id}/tasks', TaskController::class);
 Route::middleware('auth:sanctum')->apiResource('/committees/{commitee_id}/sessions', committee_sessionsController::class);
 
@@ -92,11 +92,11 @@ Route::middleware('auth:sanctum')->apiResource('/committees/{commitee_id}/sessio
 //super admin routes
 Route::middleware('superAdmin')->group(function () {
 
-
+    Route::apiResource('/committees', CommitteeController::class);
     Route::post('/committees/setAdmin', [AdminCommitteController::class, 'setAdmin']);
     Route::post('/committees/removeAdmin', [AdminCommitteController::class . 'removeAdmin']);
+    Route::post('/admin/register', [AdminController::class, 'register']);
 });
-Route::post('/admin/register', [AdminController::class, 'register']);
 route::middleware('auth:sanctum')->get('/committees/{committee_id}/requests', [AdminCommitteController::class, 'members']);
 
 

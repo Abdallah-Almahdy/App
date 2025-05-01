@@ -21,6 +21,13 @@ class CommitteeCollection extends ResourceCollection
                     'name' => $committee->name,
                     'description' => $committee->description,
                     'img' => $committee->img,
+                    'admins' => $committee->admins->transform(function ($admin) {
+                        return [
+                            'name' => $admin->name,
+                            'title' => $admin->title,
+                            'profile' =>$admin->profile,
+                        ];
+                    }),
                 ];
             }),
         ];

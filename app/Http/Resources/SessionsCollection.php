@@ -20,7 +20,8 @@ class SessionsCollection extends ResourceCollection
                     'id' => $session->id,
                     'title' => $session->title,
                     'description' => $session->description,
-                    'link' => $session->date,
+                    'link' => $session->link,
+                    'date' => $session->date,
                     'user' => [
                         "name" => $session->user->name,
                         "title" => "admin"

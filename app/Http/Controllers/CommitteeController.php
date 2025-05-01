@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\CommitteeCollection;
 use App\Http\Resources\CommitteeResource;
 use App\Models\Committee;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,7 +23,9 @@ class CommitteeController extends Controller
         Committee::validate($request);
 
         if ($request->hasFile('img')) {
-            $path = $request->file('img')->store('images', 'public');
+            $path = Cloudinary::upload($request->file('img')->getRealPath())
+                ->getSecurePath();
+            
         }
         $committee = Committee::create([
             'name' => $request->name,

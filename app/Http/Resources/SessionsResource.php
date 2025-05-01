@@ -18,7 +18,8 @@ class SessionsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'link' => $this->date,
+            'link' => $this->link,
+            'date' => $this->date,
             'user' => [
                 "name" => $this->user->name,
                 "title" => "admin"
