@@ -7,6 +7,7 @@ use App\Http\Controllers\BanerController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\CollectionOrderController;
+use App\Http\Controllers\commiteeJionController;
 use App\Http\Controllers\committee_sessionsController;
 use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\EventController;
@@ -82,9 +83,11 @@ Route::delete('/EventImage/{id}', [EventsImagesController::class, 'destroy']);
 
 
 
-Route::middleware('auth:sanctum')->apiResource('/committees/{commitee_id}/tasks', TaskController::class);
-Route::middleware('auth:sanctum')->apiResource('/committees/{commitee_id}/sessions', committee_sessionsController::class);
+Route::middleware('auth:sanctum')->apiResource('/committees/{commitee_id}/tasks', TaskController::class)->except(['index', 'show']);
+Route::middleware('auth:sanctum')->apiResource('/committees/{commitee_id}/sessions', committee_sessionsController::class)->except(['index', 'show']);
 
+Route::middleware('auth:sanctum')->apiResource('/tasks', TaskController::class)->only(['index', 'show']);
+Route::middleware('auth:sanctum')->apiResource('/sessions', committee_sessionsController::class)->only(['index', 'show']);
 
 
 
@@ -98,6 +101,8 @@ Route::middleware('superAdmin')->group(function () {
     Route::post('/committees/removeAdmin', [AdminCommitteController::class . 'removeAdmin']);
     Route::post('/admin/register', [AdminController::class, 'register']);
 });
+Route::middleware('auth:sanctum')->post('/reqest-join', [commiteeJionController::class, 'memberRequests']);
+
 Route::apiResource('/committees', CommitteeController::class)->only(['index', 'show']);
 route::middleware('auth:sanctum')->get('/committees/{committee_id}/requests', [AdminCommitteController::class, 'members']);
 

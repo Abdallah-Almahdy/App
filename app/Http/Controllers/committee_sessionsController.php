@@ -14,9 +14,12 @@ use Illuminate\Support\Facades\Gate;
 
 class committee_sessionsController extends Controller
 {
-    public function index($committee_id)
+    public function index(Request $request)
     {
-        $committee = Committee::find($committee_id);
+        $user = $request->user();
+        $committee = Committee::find($user->Committees->first()->id);
+
+        $committee = Committee::find($committee->id);
         $sessions = $committee->sessions()->get();
 
         if (!Gate::allows('show-sessions', $committee)) {

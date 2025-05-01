@@ -14,15 +14,16 @@ class commiteeJionController extends Controller
     public function memberRequests(Request $request)
     {
         $user = $request->user();
-
-        $user->committees()->attach($request->post('committee_id'), ['status' => 'inactive']);
         $request->validate(['committee_id' => 'required|exists:committees,id']);
+        $user->committees()->attach($request->post('committee_id'), ['status' => 'inactive']);
+
 
         $user->notify(new AppNotification('Request to join', "Hello $user->name, your request to join the committee has been submitted.
                                             We appreciate your interest and will review your application shortly.
                                             If you have any questions or need further assistance, feel free to reach out.
                                             Thank you for your patience!"));
         $committee = Committee::find($request->post('committee_id'));
+        
         $committee->admins()->each(function ($admin) use ($user) {
             $admin->notify(new AppNotification('New member request', "Hello $admin->name, a new member has requested to join the committee.
                                             Please review the application and take the necessary actions.please see the dashboard"));

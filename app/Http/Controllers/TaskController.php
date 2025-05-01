@@ -13,9 +13,11 @@ class TaskController extends Controller
 {
 
 
-    public function index($committee_id)
+    public function index(Request $request)
     {
-        $committee = Committee::find($committee_id);
+        $user = $request->user();
+        $committee = Committee::find($user->Committees->first()->id);
+
 
         if (auth()->user()->is_super_admin) {
             return new TaskCollection(Task::all());
@@ -27,7 +29,7 @@ class TaskController extends Controller
 
 
 
-        return new TaskCollection(Task::where('committee_id', $committee_id)->get());
+        return new TaskCollection(Task::where('committee_id', $committee->id)->get());
     }
 
     public function store(Request $request, $commitee_id)
@@ -55,7 +57,7 @@ class TaskController extends Controller
         if (!Gate::allows('show-tasks', Committee::find($committee_id))) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
-        
+
         $task = Task::find($id);
         if (!$task) {
             return response()->json(['message' => 'Task not found'], 404);

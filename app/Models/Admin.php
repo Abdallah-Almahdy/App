@@ -4,16 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class Admin extends Model
 {
-    use HasFactory, HasApiTokens;
+    use HasFactory, HasApiTokens,Notifiable;
     protected $fillable = [
         'name',
         'email',
         'password',
-        'title'
+        'title',
+        'fcm_token'
     ];
     protected $hidden = [
         'password',
@@ -33,6 +35,18 @@ class Admin extends Model
     public function blogs()
     {
         return $this->hasMany(Blog::class);
+    }
+
+    /**
+     * Route notifications for the Firebase channel.
+     *
+     * @return string|array
+     */
+    public function routeNotificationForFirebase()
+    {
+        // Return the FCM token or device token for the admin
+        // You might want to store this in a separate column in your admins table
+        return $this->fcm_token;
     }
 
      public static function getPublicIdFromUrl($url)
