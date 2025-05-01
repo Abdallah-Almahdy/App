@@ -6,6 +6,7 @@ use App\Http\Controllers\AwardController;
 use App\Http\Controllers\BanerController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\CollectionOrderController;
 use App\Http\Controllers\committee_sessionsController;
 use App\Http\Controllers\CommitteeController;
 use App\Http\Controllers\EventController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\EventsImagesController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\oAuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductOrderController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\userProfileController;
@@ -41,6 +43,8 @@ Route::middleware('auth:sanctum')->get('/admin', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->apiResource('/collections-orders', CollectionOrderController::class)->only(['index', 'store', 'delete']);
+Route::middleware('auth:sanctum')->apiResource('/products-orders', ProductOrderController::class)->only(['index', 'store', 'delete']);
 
 //admin routes
 Route::post('/admin/login', [AdminController::class, 'login']);

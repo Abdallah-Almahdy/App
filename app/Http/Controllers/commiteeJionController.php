@@ -18,7 +18,7 @@ class commiteeJionController extends Controller
         $user->committees()->attach($request->post('committee_id'), ['status' => 'inactive']);
         $request->validate(['committee_id' => 'required|exists:committees,id']);
 
-        $user->notfiy(new AppNotification('Request to join', "Hello $user->name, your request to join the committee has been submitted.
+        $user->notify(new AppNotification('Request to join', "Hello $user->name, your request to join the committee has been submitted.
                                             We appreciate your interest and will review your application shortly.
                                             If you have any questions or need further assistance, feel free to reach out.
                                             Thank you for your patience!"));
