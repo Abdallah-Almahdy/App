@@ -89,14 +89,16 @@ Route::middleware('auth:sanctum')->apiResource('/committees/{commitee_id}/sessio
 
 
 
+
+
 //super admin routes
 Route::middleware('superAdmin')->group(function () {
-
-    Route::apiResource('/committees', CommitteeController::class);
+    Route::apiResource('/committees', CommitteeController::class)->except(['index', 'show']);
     Route::post('/committees/setAdmin', [AdminCommitteController::class, 'setAdmin']);
     Route::post('/committees/removeAdmin', [AdminCommitteController::class . 'removeAdmin']);
     Route::post('/admin/register', [AdminController::class, 'register']);
 });
+Route::apiResource('/committees', CommitteeController::class)->only(['index', 'show']);
 route::middleware('auth:sanctum')->get('/committees/{committee_id}/requests', [AdminCommitteController::class, 'members']);
 
 
