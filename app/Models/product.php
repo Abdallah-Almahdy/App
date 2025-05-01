@@ -16,7 +16,7 @@ class product extends Model
     ];
     public function collection()
     {
-        return $this->belongsToMany(collection::class);
+        return $this->belongsToMany(collection::class, 'products_collections');
     }
 
     public static function validate($request)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\collectionsCollection;
 use App\Models\Admin;
 use App\Models\collection;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -13,10 +14,8 @@ class CollectionController extends Controller
     public function index()
     {
 
-        return response()->json([
-            'data' => collection::all()
-        ]);
-    }
+        return new collectionsCollection(collection::all());
+     }
 
     public function store(Request $request)
     {
@@ -33,6 +32,9 @@ class CollectionController extends Controller
             'image' => $path,
             'total' => $request->total,
         ]);
+
+        $collection->products()->attach($request->products_id);
+
 
         return response()->json([
             'message' => 'Collection created successfully',

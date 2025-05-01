@@ -17,7 +17,7 @@ class collection extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class, 'products_collections');
     }
 
     public static function validate($request)
@@ -27,6 +27,8 @@ class collection extends Model
             'description' => 'nullable|string|max:1000',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
             'total' => 'nullable|integer',
+            'products_id' => 'required|array',
+            'products_id.*' => 'required|exists:products,id',
         ]);
     }
 

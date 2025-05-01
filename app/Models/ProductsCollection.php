@@ -27,4 +27,7 @@ class ProductsCollection extends Model
             'collection_id' => 'required|exists:collections,id',
         ]);
     }
+    
+
+
 }
