@@ -46,7 +46,7 @@ class User extends Authenticatable
 
     public function Committees()
     {
-        return $this->belongsToMany(Committee::class,'Member_committees');
+        return $this->belongsToMany(Committee::class, 'member_committees');
     }
 
     public function routeNotificationForFirebase()
