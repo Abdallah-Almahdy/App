@@ -44,9 +44,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function Committees()
+    /**
+     * Get all committees that the user is a member of
+     */
+    public function committees()
     {
-        return $this->belongsToMany(Committee::class, 'member_committees');
+        return $this->belongsToMany(Committee::class, 'member_committees')
+                    ->withPivot('status');
     }
 
     public function routeNotificationForFirebase()

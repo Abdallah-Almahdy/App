@@ -102,6 +102,8 @@ Route::middleware('superAdmin')->group(function () {
     Route::post('/admin/register', [AdminController::class, 'register']);
 });
 Route::middleware('auth:sanctum')->post('/reqest-join', [commiteeJionController::class, 'memberRequests']);
+Route::middleware('auth:sanctum')->post('/inactive-members', [commiteeJionController::class, 'inactiveMembers']);
+Route::middleware('auth:sanctum')->post('/approveMemberRequest', [commiteeJionController::class, 'approveMemberRequest']);
 
 Route::apiResource('/committees', CommitteeController::class)->only(['index', 'show']);
 route::middleware('auth:sanctum')->get('/committees/{committee_id}/requests', [AdminCommitteController::class, 'members']);

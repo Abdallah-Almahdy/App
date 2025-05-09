@@ -12,12 +12,15 @@ use Illuminate\Support\Facades\Gate;
 class TaskController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('hasAccess');
+    }
 
     public function index(Request $request)
     {
         $user = $request->user();
-        $committee = Committee::find($user->Committees->first()->id);
-
+        $committee = $user->committees()->first();
 
         if (auth()->user()->is_super_admin) {
             return new TaskCollection(Task::all());

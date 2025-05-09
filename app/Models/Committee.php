@@ -34,9 +34,10 @@ class Committee extends Model
         return $this->belongsToMany(Admin::class,'admin_committees');
     }
 
-    public function members(){
-
-        return $this->belongsToMany(User::class,'users');
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'member_committees')
+                    ->withPivot('status');
     }
 
 
