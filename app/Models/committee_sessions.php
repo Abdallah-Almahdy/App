@@ -37,6 +37,6 @@ class committee_sessions extends Model
 
     public function user()
     {
-        return $this->belongsTo(admin::class);
+        return $this->belongsTo(Admin::class);
     }
 }
