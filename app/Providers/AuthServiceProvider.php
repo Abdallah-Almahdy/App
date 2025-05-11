@@ -32,13 +32,17 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('show-tasks', function ($user, $committee) {
-            if($user->committees->contains($committee) )
+            if($user->committees->contains($committee))
             return true;
         });
 
         Gate::define('manage-tasks', function ($user, $committee) {
-            if (auth::guard('admin')->user()->committees->contains($committee))
+            $admin = auth()->guard('admin')->user();
+
+            if ($admin && $admin->committees->contains($committee)) {
                 return true;
+            }
+            return false;
         });
 
         Gate::define('show-sessions', function ($user, $committee) {
@@ -47,8 +51,12 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('manage-sessions', function ($user, $committee) {
-            if (auth::guard('admin')->user()->committees->contains($committee))
+            $admin = auth()->guard('admin')->user();
+
+            if ($admin && $admin->committees->contains($committee)) {
                 return true;
+            }
+            return false;
         });
 
     }

@@ -25,13 +25,13 @@ class CommitteeController extends Controller
         if ($request->hasFile('img')) {
             $path = Cloudinary::upload($request->file('img')->getRealPath())
                 ->getSecurePath();
-            
         }
         $committee = Committee::create([
             'name' => $request->name,
             'description' => $request->description,
             'img' => $path
         ]);
+        auth()->user()->committees->attach($committee->id);
         return new CommitteeResource($committee);
     }
 

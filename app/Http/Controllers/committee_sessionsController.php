@@ -22,9 +22,11 @@ class committee_sessionsController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
+        // Handle super admin case first
+        if ($user->is_super_admin) {
+            return new SessionsCollection(committee_sessions::all());
+        }
         $committee = $user->committees()->first();
-
-    
         $sessions = $committee->sessions()->get();
 
         if (!Gate::allows('show-sessions', $committee)) {
@@ -40,14 +42,13 @@ class committee_sessionsController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-
         committee_sessions::validate($request);
 
         $session = committee_sessions::create([
             'title' => $request->post('title'),
             'description' => $request->post('description'),
             'date' => $request->post('date'),
-            'user_id' => Auth::user()->id,
+            'user_id' => auth::user()->id,
             'committee_id' => $committee_id,
             'link' => $request->post('link'),
         ]);
@@ -55,9 +56,12 @@ class committee_sessionsController extends Controller
         return new SessionsResource($session);
     }
 
-    public function show($committee_id,$id)
+    public function show($id)
     {
-        if (!Gate::allows('show-sessions', Committee::find($committee_id))) {
+        $user = auth()->user();
+        $userCommittee = $user->committees->first();
+
+        if (!Gate::allows('show-sessions', $userCommittee)) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -75,11 +79,14 @@ class committee_sessionsController extends Controller
         }
         committee_sessions::validate($request);
         $session = committee_sessions::find($id);
+        if (!$session) {
+            return response()->json(['message' => 'Session not found'], 404);
+        }
         $session->update([
-            'title' => $request->post('title'),
-            'description' => $request->post('description'),
-            'date' => $request->post('date'),
-            'link' => $request->post('link'),
+            'title' => $request->title,
+            'description' => $request->description,
+            'date' => $request->date,
+            'link' => $request->link,
         ]);
         return  new SessionsResource($session);
     }
