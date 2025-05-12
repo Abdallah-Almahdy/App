@@ -105,4 +105,41 @@ class commiteeJionController extends Controller
             'message' => 'request approved successfully'
         ], 200);
     }
+
+
+    public function rejectMemberRequest(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:member_committees,user_id',
+            'committee_id' => 'required|exists:committees,id'
+        ]);
+
+        $member = Member_committee::where('user_id', $request->post('user_id'))
+            ->where('committee_id', $request->post('committee_id'))
+            ->where('status', 'inactive')
+            ->first();
+
+        if (!$member) {
+            return response()->json([
+                'message' => 'Member request not found'
+            ], 404);
+        }
+
+
+
+        $user = $member->member;
+        if ($user) {
+            $user->notify(new AppNotification('Request rejected', "Hello $user->name, your request to join the committee has been rejected.
+                                                We appreciate your interest and encourage you to apply again in the future.
+                                                If you have any questions or need further assistance, feel free to reach out.
+                                                Thank you for your understanding!"));
+        }
+
+        $member->delete();
+
+        return response()->json([
+            'message' => 'request rejected successfully'
+        ], 200);
+
+    }
 }
