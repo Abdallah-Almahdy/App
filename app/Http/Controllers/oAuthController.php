@@ -4,26 +4,45 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Http;
 
-class oAuthController extends Controller
+class OAuthController extends Controller
 {
-
-
-    public function handleGoogleCallback($request)
+    public function loginWithGoogle(Request $request)
     {
-        $googleUser = Socialite::driver('google')->user();
+        $idToken = $request->input('id_token');
 
-        $user = User::firstOrCreate(
+        // 1. Verify ID token with Google
+        $response = Http::get('https://oauth2.googleapis.com/tokeninfo', [
+            'id_token' => $idToken
+        ]);
+
+        if ($response->failed()) {
+            return response()->json(['error' => 'Invalid ID token'], 401);
+        }
+
+        $googleUser = $response->json();
+
+        // 2. Validate audience (optional but recommended)
+        if ($googleUser['aud'] !== env('GOOGLE_CLIENT_ID')) {
+            return response()->json(['error' => 'Invalid Client ID'], 403);
+        }
+
+        // 3. Create or update user
+        $user = User::updateOrCreate(
+            ['email' => $googleUser['email']],
             [
-                'email' => $googleUser->getEmail()
-            ],
-
-            ['name' => $googleUser->getName()]
+                'name' => $googleUser['name'],
+                'fcm_token' => $request->input('fcm_token', null),
+            ]
         );
 
-        $token = $user->createToken('YourAppName')->plainTextToken;
+        // 4. Create token
+        $token = $user->createToken('AndroidApp')->plainTextToken;
 
-        return response()->json(['token' => $token,'user' => $user]);
+        return response()->json([
+            'token' => $token,
+            'user' => $user
+        ]);
     }
 }

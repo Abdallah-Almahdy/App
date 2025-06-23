@@ -132,4 +132,4 @@ Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
 Route::middleware('auth:sanctum')->get('/logout', [UserController::class, 'logout']);
 
-Route::get('auth/google/callback', [oAuthController::class, 'handleGoogleCallback']);
+Route::POST('auth/google/callback', [oAuthController::class, 'loginWithGoogle']);
